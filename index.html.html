@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suhaib Bilal — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FFF8F3;
+    --surface: #FFFFFF;
+    --surface2: #FFF0E6;
+    --accent: #FF6B1A;
+    --accent2: #FF9A5C;
+    --accent-dark: #E05500;
+    --text: #1A0F00;
+    --muted: #7A5540;
+    --border: rgba(255,107,26,0.18);
+    --glow: rgba(255,107,26,0.07);
+    --shadow: rgba(255,107,26,0.12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 60px;
+    background: rgba(255,248,243,0.93);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 2px 20px var(--shadow);
+  }
+  .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.4rem; color: var(--accent); }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.84rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--accent); }
+
+  .hero {
+    min-height: 100vh; display: flex; align-items: center;
+    padding: 120px 60px 80px; position: relative; overflow: hidden;
+    background: linear-gradient(135deg, #FFF8F3 0%, #FFE8D6 100%);
+  }
+  .hero::before { content: ''; position: absolute; top: -150px; right: -150px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(255,107,26,0.18) 0%, transparent 70%); pointer-events: none; }
+  .hero::after { content: ''; position: absolute; bottom: -100px; left: 10%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(255,154,92,0.12) 0%, transparent 70%); pointer-events: none; }
+  .hero-content { max-width: 700px; animation: fadeUp 0.9s ease forwards; position: relative; z-index: 1; }
+
+  .hero-tag { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: 100px; padding: 6px 18px; font-size: 0.75rem; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 32px; font-weight: 600; box-shadow: 0 2px 12px var(--shadow); }
+  .hero-tag::before { content: ''; width: 7px; height: 7px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+
+  h1 { font-family: 'Syne', sans-serif; font-size: clamp(3rem, 7vw, 6rem); font-weight: 800; line-height: 1.0; letter-spacing: -0.03em; margin-bottom: 24px; color: var(--text); }
+  h1 span { color: var(--accent); display: block; }
+
+  .hero-desc { font-size: 1.1rem; color: var(--muted); line-height: 1.7; max-width: 520px; margin-bottom: 40px; }
+  .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; }
+
+  .btn-primary { background: var(--accent); color: #fff; padding: 14px 32px; border-radius: 8px; font-weight: 700; font-size: 0.9rem; text-decoration: none; letter-spacing: 0.02em; transition: transform 0.2s, box-shadow 0.2s; border: none; cursor: pointer; box-shadow: 0 4px 20px rgba(255,107,26,0.35); font-family: 'DM Sans', sans-serif; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255,107,26,0.45); }
+  .btn-outline { background: transparent; color: var(--accent); padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; text-decoration: none; letter-spacing: 0.02em; border: 2px solid var(--accent); transition: background 0.2s, color 0.2s; cursor: pointer; }
+  .btn-outline:hover { background: var(--accent); color: #fff; }
+
+  .stats-row { display: flex; gap: 48px; margin-top: 64px; padding-top: 40px; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .stat-num { font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800; color: var(--accent); }
+  .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  section { padding: 100px 60px; position: relative; }
+  .section-label { font-size: 0.75rem; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; }
+  .section-label::after { content: ''; flex: 1; max-width: 60px; height: 2px; background: var(--accent); opacity: 0.4; border-radius: 2px; }
+  .section-title { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 60px; line-height: 1.1; color: var(--text); }
+
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+  .about-text p { color: var(--muted); line-height: 1.8; font-size: 1.05rem; margin-bottom: 20px; }
+  .about-text p:first-child { color: var(--text); font-size: 1.1rem; }
+
+  .skills-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+  .skill-tag { background: var(--surface2); border: 1.5px solid var(--border); border-radius: 6px; padding: 8px 16px; font-size: 0.82rem; color: var(--text); font-weight: 500; transition: border-color 0.2s, color 0.2s; cursor: default; }
+  .skill-tag:hover { border-color: var(--accent); color: var(--accent); }
+
+  .info-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 18px; padding: 32px; box-shadow: 0 4px 30px var(--shadow); }
+  .info-row { display: flex; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+  .info-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .info-row:first-child { padding-top: 0; }
+  .info-icon { width: 42px; height: 42px; background: var(--surface2); border: 1.5px solid var(--border); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .info-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px; }
+  .info-value { font-size: 0.95rem; color: var(--text); font-weight: 600; }
+
+  .qual-timeline { position: relative; padding-left: 32px; }
+  .qual-timeline::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 3px; background: linear-gradient(to bottom, var(--accent), var(--accent2), rgba(255,154,92,0.1)); border-radius: 2px; }
+  .qual-item { position: relative; margin-bottom: 28px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 16px; padding: 28px 32px; transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s; box-shadow: 0 2px 16px var(--shadow); }
+  .qual-item:hover { border-color: var(--accent); transform: translateX(6px); box-shadow: 0 4px 24px rgba(255,107,26,0.18); }
+  .qual-item::before { content: ''; position: absolute; left: -40px; top: 28px; width: 14px; height: 14px; background: var(--accent); border-radius: 50%; border: 3px solid var(--bg); box-shadow: 0 0 10px rgba(255,107,26,0.5); }
+  .qual-year { font-size: 0.75rem; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; }
+  .qual-degree { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; color: var(--text); }
+  .qual-school { color: var(--muted); font-size: 0.9rem; }
+
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+  .project-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 18px; padding: 32px; transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s; position: relative; overflow: hidden; box-shadow: 0 2px 16px var(--shadow); }
+  .project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--accent), var(--accent2)); transform: scaleX(0); transform-origin: left; transition: transform 0.4s; }
+  .project-card:hover { border-color: var(--accent); transform: translateY(-5px); box-shadow: 0 8px 32px rgba(255,107,26,0.2); }
+  .project-card:hover::before { transform: scaleX(1); }
+  .project-number { font-family: 'Syne', sans-serif; font-size: 3rem; font-weight: 800; color: rgba(255,107,26,0.12); line-height: 1; margin-bottom: 16px; }
+  .project-title { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 12px; color: var(--text); }
+  .project-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.7; margin-bottom: 20px; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .project-tag { background: rgba(255,107,26,0.08); border: 1px solid rgba(255,107,26,0.25); border-radius: 5px; padding: 4px 10px; font-size: 0.75rem; color: var(--accent-dark); font-weight: 600; }
+
+  .certs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .cert-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 14px; padding: 24px; display: flex; gap: 18px; align-items: flex-start; transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s; box-shadow: 0 2px 14px var(--shadow); }
+  .cert-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 6px 24px rgba(255,107,26,0.18); }
+  .cert-icon { width: 48px; height: 48px; background: linear-gradient(135deg, rgba(255,107,26,0.15), rgba(255,154,92,0.1)); border: 1.5px solid var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
+  .cert-name { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 6px; color: var(--text); }
+  .cert-org { color: var(--muted); font-size: 0.85rem; margin-bottom: 8px; }
+  .cert-year { display: inline-block; background: rgba(255,107,26,0.1); color: var(--accent-dark); font-size: 0.75rem; padding: 3px 10px; border-radius: 4px; font-weight: 700; }
+
+  .hobbies-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; }
+  .hobby-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 18px; padding: 32px 24px; text-align: center; transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s; box-shadow: 0 2px 16px var(--shadow); }
+  .hobby-card:hover { border-color: var(--accent); transform: translateY(-5px); box-shadow: 0 8px 28px rgba(255,107,26,0.2); }
+  .hobby-emoji { font-size: 2.8rem; margin-bottom: 16px; display: block; }
+  .hobby-name { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+  .hobby-desc { color: var(--muted); font-size: 0.85rem; line-height: 1.6; }
+
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+  .contact-text p { color: var(--muted); line-height: 1.8; font-size: 1.05rem; margin-bottom: 32px; }
+  .social-links { display: flex; flex-direction: column; gap: 14px; }
+  .social-link { display: flex; align-items: center; gap: 16px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 14px; padding: 16px 20px; text-decoration: none; color: var(--text); transition: border-color 0.3s, transform 0.2s, box-shadow 0.3s; box-shadow: 0 2px 12px var(--shadow); }
+  .social-link:hover { border-color: var(--accent); transform: translateX(5px); box-shadow: 0 4px 20px rgba(255,107,26,0.18); }
+  .social-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+  .social-name { font-weight: 700; font-size: 0.95rem; color: var(--text); }
+  .social-handle { color: var(--muted); font-size: 0.82rem; margin-top: 2px; }
+
+  /* EDIT SYSTEM */
+  .edit-mode [contenteditable] { outline: 2px dashed rgba(255,107,26,0.5); border-radius: 4px; padding: 2px 4px; cursor: text; min-width: 20px; display: inline-block; }
+
+  .edit-toolbar { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px); background: #fff; border: 2px solid var(--accent); border-radius: 50px; padding: 12px 24px; display: flex; align-items: center; gap: 16px; z-index: 200; box-shadow: 0 8px 40px rgba(255,107,26,0.25); opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s; }
+  .edit-toolbar.visible { opacity: 1; pointer-events: all; transform: translateX(-50%) translateY(0); }
+  .edit-toolbar span { color: var(--accent); font-size: 0.85rem; font-weight: 600; }
+  .toolbar-save { background: var(--accent); color: #fff; border: none; padding: 8px 20px; border-radius: 20px; font-weight: 700; font-size: 0.82rem; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: transform 0.2s; }
+  .toolbar-save:hover { transform: scale(1.05); }
+  .toolbar-cancel { background: transparent; color: var(--muted); border: none; padding: 8px 16px; border-radius: 20px; font-weight: 500; font-size: 0.82rem; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: color 0.2s; }
+  .toolbar-cancel:hover { color: var(--text); }
+
+  .add-item-btn { display: none; align-items: center; justify-content: center; gap: 8px; width: 100%; background: transparent; border: 2px dashed rgba(255,107,26,0.25); color: var(--muted); border-radius: 14px; padding: 20px; font-size: 0.85rem; cursor: pointer; transition: border-color 0.2s, color 0.2s; font-family: 'DM Sans', sans-serif; font-weight: 500; margin-top: 16px; }
+  .add-item-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .edit-mode .add-item-btn { display: flex; }
+
+  .add-social-btn { display: none; align-items: center; justify-content: center; gap: 8px; width: 100%; background: transparent; border: 2px dashed rgba(255,107,26,0.25); color: var(--muted); border-radius: 14px; padding: 16px 20px; font-size: 0.85rem; cursor: pointer; transition: border-color 0.2s, color 0.2s; font-family: 'DM Sans', sans-serif; font-weight: 500; margin-top: 6px; }
+  .add-social-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .edit-mode .add-social-btn { display: flex; }
+
+  .delete-btn { background: rgba(255,50,50,0.08); border: 1px solid rgba(255,50,50,0.25); color: #e53935; border-radius: 6px; padding: 4px 10px; font-size: 0.72rem; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background 0.2s; display: none; font-weight: 600; }
+  .edit-mode .delete-btn { display: inline-flex; align-items: center; gap: 4px; }
+  .delete-btn:hover { background: rgba(255,50,50,0.15); }
+
+  /* PASSWORD MODAL */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(255,107,26,0.08); backdrop-filter: blur(8px); z-index: 999; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+  .modal-overlay.visible { opacity: 1; pointer-events: all; }
+  .modal { background: #fff; border: 2px solid var(--accent); border-radius: 24px; padding: 40px; width: 360px; text-align: center; box-shadow: 0 20px 60px rgba(255,107,26,0.25); transform: scale(0.9); transition: transform 0.3s; }
+  .modal-overlay.visible .modal { transform: scale(1); }
+  .modal-icon { font-size: 2.5rem; margin-bottom: 16px; }
+  .modal h3 { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+  .modal p { color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; }
+  .modal input { width: 100%; padding: 14px 18px; border: 2px solid var(--border); border-radius: 10px; font-size: 1rem; font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--bg); outline: none; margin-bottom: 12px; transition: border-color 0.2s; text-align: center; letter-spacing: 0.12em; }
+  .modal input:focus { border-color: var(--accent); }
+  .modal-error { color: #e53935; font-size: 0.82rem; margin-bottom: 12px; display: none; font-weight: 500; }
+  .modal-btns { display: flex; gap: 12px; }
+  .modal-submit { flex: 1; background: var(--accent); color: #fff; border: none; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 0.9rem; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: transform 0.2s; }
+  .modal-submit:hover { transform: scale(1.03); }
+  .modal-close-btn { flex: 1; background: var(--surface2); color: var(--muted); border: none; padding: 12px; border-radius: 10px; font-weight: 600; font-size: 0.9rem; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+
+  footer { border-top: 1px solid var(--border); padding: 32px 60px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; background: var(--surface); }
+  footer p { color: var(--muted); font-size: 0.85rem; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section, .hero { padding: 80px 24px; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; }
+    footer { padding: 24px; flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- PASSWORD MODAL -->
+<div class="modal-overlay" id="passwordModal">
+  <div class="modal">
+    <div class="modal-icon">🔐</div>
+    <h3>Editor Access</h3>
+    <p>Enter your password to unlock edit mode</p>
+    <input type="password" id="passwordInput" placeholder="Enter password" onkeydown="if(event.key==='Enter') checkPassword()">
+    <div class="modal-error" id="pwError">❌ Incorrect password. Try again.</div>
+    <div class="modal-btns">
+      <button class="modal-submit" onclick="checkPassword()">Unlock ✓</button>
+      <button class="modal-close-btn" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">SB.</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#qualification">Education</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#certifications">Certifications</a></li>
+    <li><a href="#hobbies">Hobbies</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="btn-primary" id="mainEditBtn" onclick="requestEdit()" style="padding:10px 20px;font-size:0.82rem;">✏️ Edit Page</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-content">
+    <div class="hero-tag">1st Year CS Student</div>
+    <h1>Suhaib<span>Bilal.</span></h1>
+    <p class="hero-desc" contenteditable="false">Data Science & Business Analytics enthusiast with a passion for turning raw data into meaningful insights. Strong public speaker, skilled debater, and communicator.</p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">View Projects</a>
+      <a href="#contact" class="btn-outline">Get In Touch</a>
+    </div>
+    <div class="stats-row">
+      <div class="stat-item"><div class="stat-num" contenteditable="false">5+</div><div class="stat-label">Projects</div></div>
+      <div class="stat-item"><div class="stat-num" contenteditable="false">4+</div><div class="stat-label">Certifications</div></div>
+      <div class="stat-item"><div class="stat-num" contenteditable="false">1st</div><div class="stat-label">Year</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" style="background:#fff;border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="section-label">Who I Am</div>
+  <h2 class="section-title">About Me</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p contenteditable="false">I'm Suhaib Bilal, a first-year Computer Science student at National Engineering College, Kovilpatti. I'm deeply passionate about the intersection of data and decision-making — specifically Data Science and Business Analytics.</p>
+      <p contenteditable="false">Beyond the technical side, I'm an accomplished public speaker with strong debating and communication skills, which gives me a unique edge in presenting complex data-driven insights in a clear and compelling way.</p>
+      <p contenteditable="false">I believe in continuous learning and am always looking for opportunities to apply my skills in real-world problems that create meaningful impact.</p>
+      <div class="skills-grid" id="skillsGrid">
+        <span class="skill-tag" contenteditable="false">Data Science</span>
+        <span class="skill-tag" contenteditable="false">Business Analytics</span>
+        <span class="skill-tag" contenteditable="false">Public Speaking</span>
+        <span class="skill-tag" contenteditable="false">Debating</span>
+        <span class="skill-tag" contenteditable="false">Communication</span>
+        <span class="skill-tag" contenteditable="false">Python</span>
+        <span class="skill-tag" contenteditable="false">SQL</span>
+        <span class="skill-tag" contenteditable="false">Data Visualization</span>
+      </div>
+      <button class="add-item-btn" onclick="addSkill()">+ Add Skill</button>
+    </div>
+    <div class="info-card">
+      <div class="info-row"><div class="info-icon">🎓</div><div><div class="info-label">Institution</div><div class="info-value" contenteditable="false">National Engineering College, Kovilpatti</div></div></div>
+      <div class="info-row"><div class="info-icon">📚</div><div><div class="info-label">Degree</div><div class="info-value" contenteditable="false">B.E. Computer Science Engineering</div></div></div>
+      <div class="info-row"><div class="info-icon">🗓️</div><div><div class="info-label">Year</div><div class="info-value" contenteditable="false">1st Year (2024 – 2028)</div></div></div>
+      <div class="info-row"><div class="info-icon">🎯</div><div><div class="info-label">Focus Areas</div><div class="info-value" contenteditable="false">Data Science & Business Analytics</div></div></div>
+      <div class="info-row"><div class="info-icon">💬</div><div><div class="info-label">Strengths</div><div class="info-value" contenteditable="false">Public Speaking, Debate, Communication</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- QUALIFICATION -->
+<section id="qualification">
+  <div class="section-label">My Journey</div>
+  <h2 class="section-title">Qualification</h2>
+  <div class="qual-timeline" id="qualTimeline">
+    <div class="qual-item">
+      <button class="delete-btn" onclick="deleteItem(this.parentElement)">✕ Remove</button>
+      <div class="qual-year" contenteditable="false">2024 – Present</div>
+      <div class="qual-degree" contenteditable="false">B.E. Computer Science Engineering</div>
+      <div class="qual-school" contenteditable="false">National Engineering College, Kovilpatti, Tamil Nadu</div>
+    </div>
+    <div class="qual-item">
+      <button class="delete-btn" onclick="deleteItem(this.parentElement)">✕ Remove</button>
+      <div class="qual-year" contenteditable="false">2022 – 2024</div>
+      <div class="qual-degree" contenteditable="false">Higher Secondary Education (12th Grade)</div>
+      <div class="qual-school" contenteditable="false">Add your school name here</div>
+    </div>
+    <div class="qual-item">
+      <button class="delete-btn" onclick="deleteItem(this.parentElement)">✕ Remove</button>
+      <div class="qual-year" contenteditable="false">2021 – 2022</div>
+      <div class="qual-degree" contenteditable="false">Secondary Education (10th Grade)</div>
+      <div class="qual-school" contenteditable="false">Add your school name here</div>
+    </div>
+  </div>
+  <button class="add-item-btn" onclick="addQualification()">+ Add Qualification</button>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" style="background:#fff;border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="section-label">What I've Built</div>
+  <h2 class="section-title">Projects</h2>
+  <div class="projects-grid" id="projectsGrid">
+    <div class="project-card">
+      <button class="delete-btn" onclick="deleteItem(this.parentElement)">✕ Remove</button>
+      <div class="project-number">01</div>
+      <div class="project-title" contenteditable="false">Sales Data Analysis Dashboard</div>
+      <div class="project-desc" contenteditable="false">Analyzed e-commerce sales data to identify trends and patterns. Built an interactive dashboard to visualize KPIs and business insights using Python and visualization libraries.</div>
+      <div class="project-tags"><span class="project-tag" contenteditable="false">Python</span><span class="project-tag" contenteditable="false">Pandas</span><span class="project-tag" contenteditable="false">Matplotlib</span></div>
+    </div>
+    <div class="project-card">
+      <button class="delete-btn" onclick="deleteItem(this.parentElement)">✕ Remove</button>
+      <div class="project-number">02</div>
+      <div class="project-title" contenteditable="false">Student Performance Predictor</div>
+      <div class="project-desc" contenteditable="false">Built a machine learning model to predict student academic performance based on various factors. Applied regression analysis and data preprocessing techniques.</div>
+      <div class="project-tags"><span class="project-tag" contenteditable="false">ML</span><span class="project-tag" contenteditable="false">Scikit-learn</span><span class="project-tag" contenteditable="false">Data Cleaning</span></div>
+    </div>
+    <div class="project-card">
+      <button class="delete-btn" onclick="deleteItem(this.parentElement)">✕ Remove</button>
+      <div class="project-number">03</div>
+      <div class="project-title" contenteditable="false">Business Market Research Report</div>
+      <div class="project-desc" contenteditable="false">Conducted comprehensive market analysis for a local business, presenting findings through structured data storytelling and professional presentation skills.</div>
+      <div class="project-tags"><span class="project-tag" contenteditable="false">Analytics</span><span class="project-tag" contenteditable="false">Excel</span><span class="project-tag" contenteditable="false">Presentation</span></div>
+    </div>
+  </div>
+  <button class="add-item-btn" onclick="addProject()">+ Add Project</button>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="section-label">Achievements</div>
+  <h2 class="section-title">Certifications</h2>
+  <div class="certs-grid" id="certsGrid">
+    <div class="cert-card">
+      <button class="delete-btn" onclick="deleteItem(this.parentElement)">✕ Remove</button>
+      <div class="cert-icon">📊</div>
+      <div><div class="cert-name" contenteditable="false">Google Data Analytics</div><div class="cert-org" contenteditable="false">Google / Coursera</div><span class="cert-year" contenteditable="false">2024</span></div>
+    </div>
+    <div class="cert-card">
+      <button class="delete-btn" onclick="deleteItem(this.parentElement)">✕ Remove</button>
+      <div class="cert-icon">🐍</div>
+      <div><div class="cert-name" contenteditable="false">Python for Data Science</div><div class="cert-org" contenteditable="false">IBM / Coursera</div><span class="cert-year" contenteditable="false">2024</span></div>
+    </div>
+    <div class="cert-card">
+      <button class="delete-btn" onclick="deleteItem(this.parentElement)">✕ Remove</button>
+      <div class="cert-icon">🗣️</div>
+      <div><div class="cert-name" contenteditable="false">Effective Communication</div><div class="cert-org" contenteditable="false">Add Organization</div><span class="cert-year" contenteditable="false">2023</span></div>
+    </div>
+    <div class="cert-card">
+      <button class="delete-btn" onclick="deleteItem(this.parentElement)">✕ Remove</button>
+      <div class="cert-icon">📈</div>
+      <div><div class="cert-name" contenteditable="false">Business Analytics Fundamentals</div><div class="cert-org" contenteditable="false">Add Organization</div><span class="cert-year" contenteditable="false">2024</span></div>
+    </div>
+  </div>
+  <button class="add-item-btn" onclick="addCertification()">+ Add Certification</button>
+</section>
+
+<!-- HOBBIES -->
+<section id="hobbies" style="background:#fff;border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="section-label">Beyond the Desk</div>
+  <h2 class="section-title">Hobbies & Interests</h2>
+  <div class="hobbies-grid" id="hobbiesGrid">
+    <div class="hobby-card">
+      <button class="delete-btn" onclick="deleteItem(this.parentElement)">✕ Remove</button>
+      <span class="hobby-emoji">🏏</span>
+      <div class="hobby-name" contenteditable="false">Cricket</div>
+      <div class="hobby-desc" contenteditable="false">Passionate about the game — love both playing and following cricket closely.</div>
+    </div>
+    <div class="hobby-card">
+      <button class="delete-btn" onclick="deleteItem(this.parentElement)">✕ Remove</button>
+      <span class="hobby-emoji">🏛️</span>
+      <div class="hobby-name" contenteditable="false">Politics</div>
+      <div class="hobby-desc" contenteditable="false">Keen interest in political science, current affairs, and governance discussions.</div>
+    </div>
+    <div class="hobby-card">
+      <button class="delete-btn" onclick="deleteItem(this.parentElement)">✕ Remove</button>
+      <span class="hobby-emoji">✍️</span>
+      <div class="hobby-name" contenteditable="false">Writing</div>
+      <div class="hobby-desc" contenteditable="false">Enjoy writing articles, essays, and opinions on topics that matter to me.</div>
+    </div>
+    <div class="hobby-card">
+      <button class="delete-btn" onclick="deleteItem(this.parentElement)">✕ Remove</button>
+      <span class="hobby-emoji">🎤</span>
+      <div class="hobby-name" contenteditable="false">Public Speaking</div>
+      <div class="hobby-desc" contenteditable="false">Active debater and speaker — love participating in competitions and events.</div>
+    </div>
+  </div>
+  <button class="add-item-btn" onclick="addHobby()">+ Add Hobby</button>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">Let's Connect</div>
+  <h2 class="section-title">Get In Touch</h2>
+  <div class="contact-grid">
+    <div class="contact-text">
+      <p contenteditable="false">I'm always open to discussing Data Science projects, collaboration opportunities, or just having a great conversation. Feel free to reach out on any platform!</p>
+      <a href="https://wa.me/919797243423" class="btn-primary" target="_blank" style="display:inline-block;">💬 WhatsApp Me</a>
+    </div>
+    <div>
+      <div class="social-links" id="socialLinks">
+        <a href="https://www.linkedin.com/in/suhaib-bilal" target="_blank" class="social-link">
+          <div class="social-icon" style="background:rgba(0,119,181,0.12);">🔗</div>
+          <div><div class="social-name">LinkedIn</div><div class="social-handle">Suhaib Bilal</div></div>
+        </a>
+        <a href="https://www.instagram.com/suhaib_bilal" target="_blank" class="social-link">
+          <div class="social-icon" style="background:rgba(225,48,108,0.12);">📸</div>
+          <div><div class="social-name">Instagram</div><div class="social-handle">Suhaib Bilal</div></div>
+        </a>
+        <a href="https://twitter.com/suhaib_bilal" target="_blank" class="social-link">
+          <div class="social-icon" style="background:rgba(0,0,0,0.06);font-weight:900;font-size:1rem;">𝕏</div>
+          <div><div class="social-name">X (Twitter)</div><div class="social-handle">Suhaib Bilal</div></div>
+        </a>
+        <a href="https://github.com/suhaib-bilal" target="_blank" class="social-link">
+          <div class="social-icon" style="background:rgba(36,41,47,0.08);">🐙</div>
+          <div><div class="social-name">GitHub</div><div class="social-handle" contenteditable="false">suhaib-bilal</div></div>
+        </a>
+        <a href="https://wa.me/919797243423" target="_blank" class="social-link">
+          <div class="social-icon" style="background:rgba(37,211,102,0.12);">📱</div>
+          <div><div class="social-name">WhatsApp</div><div class="social-handle">+91 97972 43423</div></div>
+        </a>
+      </div>
+      <button class="add-social-btn" onclick="addSocial()">+ Add Social Profile</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Suhaib Bilal — All Rights Reserved</p>
+  <p style="color:var(--accent);font-size:0.82rem;font-weight:600;">National Engineering College, Kovilpatti</p>
+</footer>
+
+<div class="edit-toolbar" id="editToolbar">
+  <span>✏️ Edit Mode Active</span>
+  <button class="toolbar-save" onclick="saveChanges()">💾 Save Changes</button>
+  <button class="toolbar-cancel" onclick="cancelEdit()">✕ Cancel</button>
+</div>
+
+<script>
+  const CORRECT_PASSWORD = 'Suhaib1902';
+  let editModeActive = false;
+  let savedData = {};
+
+  function requestEdit() {
+    if (editModeActive) { toggleEditOff(); return; }
+    document.getElementById('passwordModal').classList.add('visible');
+    document.getElementById('passwordInput').value = '';
+    document.getElementById('pwError').style.display = 'none';
+    setTimeout(() => document.getElementById('passwordInput').focus(), 300);
+  }
+
+  function closeModal() { document.getElementById('passwordModal').classList.remove('visible'); }
+
+  function checkPassword() {
+    const val = document.getElementById('passwordInput').value;
+    if (val === CORRECT_PASSWORD) {
+      closeModal(); activateEdit();
+    } else {
+      const err = document.getElementById('pwError');
+      err.style.display = 'block';
+      document.getElementById('passwordInput').value = '';
+      document.getElementById('passwordInput').focus();
+      document.getElementById('passwordInput').style.borderColor = '#e53935';
+      setTimeout(() => document.getElementById('passwordInput').style.borderColor = '', 1500);
+    }
+  }
+
+  function activateEdit() {
+    editModeActive = true;
+    document.body.classList.add('edit-mode');
+    document.getElementById('editToolbar').classList.add('visible');
+    document.getElementById('mainEditBtn').textContent = '👁️ Preview';
+    const editables = document.querySelectorAll('[contenteditable]');
+    editables.forEach((el, i) => { savedData[i] = el.innerHTML; el.contentEditable = 'true'; });
+    showToast('🔓 Edit mode unlocked!');
+  }
+
+  function toggleEditOff() {
+    editModeActive = false;
+    document.body.classList.remove('edit-mode');
+    document.getElementById('editToolbar').classList.remove('visible');
+    document.getElementById('mainEditBtn').textContent = '✏️ Edit Page';
+    document.querySelectorAll('[contenteditable]').forEach(el => el.contentEditable = 'false');
+  }
+
+  function saveChanges() { toggleEditOff(); renumberProjects(); showToast('✅ Changes saved!'); }
+
+  function cancelEdit() {
+    document.querySelectorAll('[contenteditable]').forEach((el, i) => { if (savedData[i] !== undefined) el.innerHTML = savedData[i]; });
+    toggleEditOff(); showToast('Changes discarded');
+  }
+
+  function deleteItem(el) {
+    if (!editModeActive) return;
+    el.style.opacity = '0'; el.style.transform = 'scale(0.85)'; el.style.transition = 'all 0.3s';
+    setTimeout(() => el.remove(), 300);
+  }
+
+  function addSkill() {
+    const grid = document.getElementById('skillsGrid');
+    const span = document.createElement('span');
+    span.className = 'skill-tag'; span.contentEditable = 'true'; span.textContent = 'New Skill';
+    span.style.borderColor = 'var(--accent)'; grid.appendChild(span); span.focus(); selectAll(span);
+  }
+
+  function addQualification() {
+    const tl = document.getElementById('qualTimeline');
+    const div = document.createElement('div'); div.className = 'qual-item';
+    div.innerHTML = `<button class="delete-btn" onclick="deleteItem(this.parentElement)">✕ Remove</button>
+      <div class="qual-year" contenteditable="true">Year Range</div>
+      <div class="qual-degree" contenteditable="true">Degree / Certificate</div>
+      <div class="qual-school" contenteditable="true">Institution Name</div>`;
+    div.style.opacity = '0'; tl.appendChild(div);
+    setTimeout(() => { div.style.transition = 'opacity 0.4s'; div.style.opacity = '1'; }, 10);
+    div.querySelector('.qual-year').focus();
+  }
+
+  function addProject() {
+    const grid = document.getElementById('projectsGrid');
+    const count = grid.querySelectorAll('.project-card').length + 1;
+    const div = document.createElement('div'); div.className = 'project-card';
+    div.innerHTML = `<button class="delete-btn" onclick="deleteItem(this.parentElement)">✕ Remove</button>
+      <div class="project-number">${String(count).padStart(2,'0')}</div>
+      <div class="project-title" contenteditable="true">Project Title</div>
+      <div class="project-desc" contenteditable="true">Describe your project here...</div>
+      <div class="project-tags"><span class="project-tag" contenteditable="true">Tag</span></div>`;
+    div.style.opacity = '0'; grid.appendChild(div);
+    setTimeout(() => { div.style.transition = 'opacity 0.4s'; div.style.opacity = '1'; }, 10);
+    div.querySelector('.project-title').focus();
+  }
+
+  function addCertification() {
+    const grid = document.getElementById('certsGrid');
+    const div = document.createElement('div'); div.className = 'cert-card';
+    div.innerHTML = `<button class="delete-btn" onclick="deleteItem(this.parentElement)">✕ Remove</button>
+      <div class="cert-icon">🏆</div>
+      <div><div class="cert-name" contenteditable="true">Certificate Name</div>
+        <div class="cert-org" contenteditable="true">Issuing Organization</div>
+        <span class="cert-year" contenteditable="true">2024</span></div>`;
+    div.style.opacity = '0'; grid.appendChild(div);
+    setTimeout(() => { div.style.transition = 'opacity 0.4s'; div.style.opacity = '1'; }, 10);
+    div.querySelector('.cert-name').focus();
+  }
+
+  function addHobby() {
+    const grid = document.getElementById('hobbiesGrid');
+    const div = document.createElement('div'); div.className = 'hobby-card';
+    div.innerHTML = `<button class="delete-btn" onclick="deleteItem(this.parentElement)">✕ Remove</button>
+      <span class="hobby-emoji" contenteditable="true">⭐</span>
+      <div class="hobby-name" contenteditable="true">Hobby Name</div>
+      <div class="hobby-desc" contenteditable="true">Describe your hobby...</div>`;
+    div.style.opacity = '0'; grid.appendChild(div);
+    setTimeout(() => { div.style.transition = 'opacity 0.4s'; div.style.opacity = '1'; }, 10);
+    div.querySelector('.hobby-name').focus();
+  }
+
+  function addSocial() {
+    const list = document.getElementById('socialLinks');
+    const a = document.createElement('a'); a.className = 'social-link'; a.href = '#';
+    a.innerHTML = `<button class="delete-btn" onclick="event.preventDefault();deleteItem(this.parentElement)">✕ Remove</button>
+      <div class="social-icon" style="background:rgba(255,107,26,0.1);" contenteditable="true">🔗</div>
+      <div><div class="social-name" contenteditable="true">Platform Name</div>
+        <div class="social-handle" contenteditable="true">@yourusername</div></div>`;
+    a.style.opacity = '0'; list.appendChild(a);
+    setTimeout(() => { a.style.transition = 'opacity 0.4s'; a.style.opacity = '1'; }, 10);
+    a.querySelector('.social-name').focus();
+  }
+
+  function renumberProjects() {
+    document.querySelectorAll('.project-card').forEach((c, i) => {
+      const n = c.querySelector('.project-number');
+      if (n) n.textContent = String(i+1).padStart(2,'0');
+    });
+  }
+
+  function selectAll(el) {
+    const range = document.createRange(); range.selectNodeContents(el);
+    const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+  }
+
+  function showToast(msg) {
+    const t = document.createElement('div'); t.textContent = msg;
+    Object.assign(t.style, { position:'fixed', bottom:'100px', left:'50%', transform:'translateX(-50%)', background:'#fff', border:'2px solid var(--accent)', color:'var(--accent)', padding:'10px 24px', borderRadius:'40px', fontSize:'0.85rem', fontWeight:'700', zIndex:'999', fontFamily:'DM Sans,sans-serif', boxShadow:'0 4px 20px rgba(255,107,26,0.2)', animation:'fadeUp 0.3s ease' });
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 2500);
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  document.getElementById('passwordModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+</script>
+</body>
+</html>
